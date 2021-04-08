@@ -10,6 +10,7 @@ import { OptionsComponent } from './componants/options/options.component';
 import {RouterModule, Routes} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {RouteActivatedService} from './service/route-activated.service';
+import {ReactiveFormsModule} from '@angular/forms';
 
 const routes: Routes = [
   {path: 'register', component: RegiserComponent},
@@ -31,7 +32,8 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

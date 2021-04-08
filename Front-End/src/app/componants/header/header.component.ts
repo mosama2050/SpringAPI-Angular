@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   isAuthenticaterUser(){
-    return this.isAuthenticaterUser();
+    return this.loginService.isLogin()  ;
   }
 
 }
