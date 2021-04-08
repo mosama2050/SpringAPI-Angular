@@ -2,7 +2,7 @@ package com.spring.studentsystem.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;    
 import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
 import java.util.ArrayList;
