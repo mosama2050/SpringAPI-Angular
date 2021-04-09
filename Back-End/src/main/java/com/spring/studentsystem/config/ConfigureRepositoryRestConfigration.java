@@ -1,4 +1,5 @@
 package com.spring.studentsystem.config;
+import com.spring.studentsystem.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -8,6 +9,7 @@ import javax.persistence.metamodel.EntityType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 public class ConfigureRepositoryRestConfigration implements RepositoryRestConfigurer {
@@ -21,7 +23,17 @@ public class ConfigureRepositoryRestConfigration implements RepositoryRestConfig
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+        HttpMethod[] unsupported = {HttpMethod.GET,HttpMethod.POST,HttpMethod.DELETE,HttpMethod.PUT};
+        displeHttpMethod(Student.class,config,unsupported);
         exposeIds(config);
+    }
+
+
+    public void displeHttpMethod(Class theClass, RepositoryRestConfiguration config, HttpMethod[] unsupportedMethod) {
+        config.getExposureConfiguration()
+                .forDomainType(theClass)
+                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(unsupportedMethod)))
+                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedMethod));
     }
 
     public void exposeIds(RepositoryRestConfiguration config){
