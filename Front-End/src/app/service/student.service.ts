@@ -30,6 +30,28 @@ export class StudentService {
   addStudent(student: Student){
     return this.httpStudent.post(this.urlStudents,student);
   }
+
+  getStudent(id: number): Observable<Student>{
+    return this.httpStudent.get<Student>(`http://localhost:8080/system/student?id=${id}`).pipe(
+      map(response => response)
+    );
+  }
+
+  editStudent(student: Student,id: number){
+    return this.httpStudent.put(this.urlStudents + `?id=${id}` , student);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 //api/students
 //   getStudents(): Observable<Student[]> {
 //     return this.httpStudent.get<GetResponseStudent>(this.urlStudents).pipe(
