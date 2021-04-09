@@ -3,3 +3,14 @@ button
 {
   margin: 20px;
 }
+.form-select
+{
+  margin-left: 10px;
+
+}
+.group{
+  display: flex;
+  margin: 20px;
+
+}
+

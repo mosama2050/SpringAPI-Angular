@@ -22,12 +22,12 @@
     <td>{{stus.age}}</td>
     <td>{{stus.address}}</td>
     <td>
-      <button class="btn btn-success" routerLink="/control">Update</button>
-      <button class="btn btn-primary" (click)="removeStudent(stus.id)">Delete</button>
+      <button class="btn btn-primary" routerLink="/control">Update</button>
+      <button class="btn btn-danger" (click)="removeStudent(stus.id)">Delete</button>
     </td>
 
   </tr>
   </tbody>
 </table>
 
-<button class="btn btn-danger">Add</button>
+<button class="btn btn-success" routerLink="/control">Add</button>

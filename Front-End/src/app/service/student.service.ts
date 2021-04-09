@@ -27,6 +27,9 @@ export class StudentService {
     return this.httpStudent.delete(this.urlStudents + `?id=${id}`)
   }
 
+  addStudent(student: Student){
+    return this.httpStudent.post(this.urlStudents,student);
+  }
 //api/students
 //   getStudents(): Observable<Student[]> {
 //     return this.httpStudent.get<GetResponseStudent>(this.urlStudents).pipe(
