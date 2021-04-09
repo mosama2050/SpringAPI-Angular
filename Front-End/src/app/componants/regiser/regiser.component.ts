@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {LoginService} from '../../service/login.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-regiser',
@@ -8,10 +10,11 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class RegiserComponent implements OnInit {
 
-
   logInFormGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+              private loginService: LoginService,
+              private route: Router) { }
 
   ngOnInit(): void {
     this.logInFormGroup = this.formBuilder.group({
@@ -21,10 +24,9 @@ export class RegiserComponent implements OnInit {
       })
     });
   }
-
   // tslint:disable-next-line:typedef
   OnSubmit() {
-    console.log(this.logInFormGroup.get('admin').value.userName);
-    console.log(this.logInFormGroup.get('admin').value.password);
+    this.loginService.login(this.logInFormGroup.get('admin').value.userName, this.logInFormGroup.get('admin').value.password)
+    this.route.navigateByUrl('students');
   }
 }
