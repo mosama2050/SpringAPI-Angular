@@ -11,9 +11,11 @@ import {RouterModule, Routes} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {RouteActivatedService} from './service/route-activated.service';
 import {ReactiveFormsModule} from '@angular/forms';
+import { ContentComponent } from './componants/content/content.component';
 
 const routes: Routes = [
   {path: 'register', component: RegiserComponent},
+  {path: 'content', component: ContentComponent},
   {path: 'control', component: OptionsComponent, canActivate: [RouteActivatedService]},
   {path: 'students', component: StudentsComponent, canActivate: [RouteActivatedService]},
   {path: '', component: StudentsComponent, canActivate: [RouteActivatedService]},
@@ -27,7 +29,8 @@ const routes: Routes = [
     HeaderComponent,
     RegiserComponent,
     StudentsComponent,
-    OptionsComponent
+    OptionsComponent,
+    ContentComponent
   ],
   imports: [
     BrowserModule,
