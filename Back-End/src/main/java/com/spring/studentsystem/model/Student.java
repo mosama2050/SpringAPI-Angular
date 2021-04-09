@@ -47,5 +47,7 @@ public class Student {
     @Column(name = "date_updated")
     private Date dateUpdated;
 
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
