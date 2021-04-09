@@ -1,3 +1,8 @@
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -8,17 +13,33 @@ import {Student} from '../model/student';
 })
 export class StudentService {
 
-  private urlStudents = 'http://localhost:8080/api/students';
+  private urlStudents = 'http://localhost:8080/system/students';
   constructor(private httpStudent: HttpClient) { }
-
   getStudents(): Observable<Student[]> {
-    return this.httpStudent.get<GetResponseStudent>(this.urlStudents).pipe(
-      map(response => response._embedded.students)
+    return this.httpStudent.get<Student[]>(this.urlStudents).pipe(
+      map(response => response)
     );
   }
-}
-interface GetResponseStudent {
-  _embedded: {
-    students: Student[]
-  };
+
+
+  removeStudent(id: number){
+    //return this.httpStudent.delete(this.urlStudents + "?id=" + id)
+    return this.httpStudent.delete(this.urlStudents + `?id=${id}`)
+  }
+
+//api/students
+//   getStudents(): Observable<Student[]> {
+//     return this.httpStudent.get<GetResponseStudent>(this.urlStudents).pipe(
+//       map(response => response._embedded.students)
+//     );
+//   }
+// }
+
+// interface GetResponseStudent {
+//   _embedded: {
+//     students: Student[]
+//   };
+
+
+
 }
