@@ -2,15 +2,22 @@ input,
 button
 {
   margin: 20px;
+
+
 }
 .form-select
 {
-  margin-left: 10px;
+  margin: 20px ;
 
+width: fit-content;
 }
 .group{
   display: flex;
   margin: 20px;
 
+}
+.inv{
+  height: fit-content;
+  width: fit-content;
 }
 

@@ -13,7 +13,7 @@
 
   </tr>
   </thead>
-  <tbody>
+  <tbody *ngIf="students.length != 0">
   <tr *ngFor="let stus of students">
     <th scope="row">{{stus.id}}</th>
     <td>{{stus.fullName}}</td>
@@ -29,5 +29,5 @@
   </tr>
   </tbody>
 </table>
-
+<div *ngIf="students?.length == 0" class="alert alert-danger">No Data</div>
 <button class="btn btn-success" routerLink="/control">Add</button>

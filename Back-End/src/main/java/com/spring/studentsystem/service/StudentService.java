@@ -32,4 +32,7 @@ public class StudentService {
     public void removeStudent( Long id){
         studentRepository.deleteById(id);
     }
+    public List<Student> findByFullName(String fullname){
+        return this.studentRepository.findByFullNameContaining(fullname);
+    }
 }

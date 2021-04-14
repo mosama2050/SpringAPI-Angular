@@ -16,4 +16,6 @@
 .form-inline{
   display: flex;
 }
-
+.navbar-brand{
+  margin-left: 20px;
+}

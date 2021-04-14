@@ -6,7 +6,8 @@ button
 
 }
  .input-group {
-   padding:10px;
+   display: flex;
+   padding-left:20px;
    position: center;
    width: 50%;
  }
@@ -14,5 +15,12 @@ button
   position: center;
   alignment: center;
   padding-left: 20%;
+
+}
+.error {
+
+  padding-left:20px;
+   width: fit-content;
+  color: firebrick;
 
 }

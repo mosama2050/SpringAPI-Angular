@@ -48,4 +48,8 @@ public class StudentController {
     public void removeStudent(@RequestParam Long id){
         studentService.removeStudent(id);
     }
-}
+    // http://localhost:8080/system/students/searchname?fullname= 
+    @GetMapping("students/searchname")
+    public List<Student> findByFullName(@RequestParam String fullname){
+        return this.studentService.findByFullName(fullname);
+    }}

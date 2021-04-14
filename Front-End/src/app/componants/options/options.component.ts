@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Student} from '../../model/student';
 import {StudentService} from '../../service/student.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Spacevalidator} from '../../model/spacevalidator';
 
 @Component({
   selector: 'app-options',
@@ -12,6 +13,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class OptionsComponent implements OnInit {
 
   studentGroub: FormGroup;
+  invalidFullName: String;
   id: number;
   myStudent: Student = new Student(0,"","","","","");
 
@@ -22,17 +24,23 @@ export class OptionsComponent implements OnInit {
     this.id = +this.route.snapshot.paramMap.get('id');
     if(this.id != 0){
       this.serviceStudent.getStudent(this.id).subscribe(
-        response =>
-          this.myStudent = response
+        response => {
+          this.myStudent = response,
+            this.studentGroub.get("student.userName").patchValue(response.fullName),
+            this.studentGroub.get("student.age").patchValue(response.age),
+            this.studentGroub.get("student.address").patchValue(response.address),
+            this.studentGroub.get("student.phone").patchValue(response.phone),
+            this.studentGroub.get("student.gender").patchValue(response.gender)
+        }
       )
     }
     this.studentGroub = this.formBuilder.group({
       student: this.formBuilder.group({
-        userName: [''],
-        age: [''],
-        address: [''],
-        phone: [''],
-        gender: ['']
+        userName: new FormControl('',[Validators.required,Validators.minLength(5),Spacevalidator.noOnlyWithSpace]),
+        age: new FormControl('',[Validators.required,Validators.maxLength(2),Validators.pattern("^[0-9]*$"),Spacevalidator.noOnlyWithSpace]),
+        address: new FormControl('',[Validators.required]),
+        phone: new FormControl('',[Validators.required,Validators.maxLength(11),Validators.minLength(11),Validators.pattern("^[0-9]*$"),Spacevalidator.noOnlyWithSpace]),
+        gender: ['MALE']
       })
     })
   }
@@ -51,27 +59,51 @@ export class OptionsComponent implements OnInit {
   getGender() {
     return this.studentGroub.get("student").value.gender;
   }
+
+  get userName() {
+    return this.studentGroub.get("student.userName");
+  }
+  get age() {
+    return this.studentGroub.get("student.age");
+  }
+  get address() {
+    return this.studentGroub.get("student.address");
+  }
+  get phone() {
+    return this.studentGroub.get("student.phone");
+  }
+  get gender() {
+    return this.studentGroub.get("student.gender");
+  }
   done() {
-    const stu = new Student(this.id, this.getUserName(), this.getGender(), this.getAge(), this.getPhone(), this.getAddress());
-    if (this.id == 0) {
-      this.serviceStudent.addStudent(stu).subscribe(
-        response => {
-          this.router.navigateByUrl('/students');
-        }
-      )
+    const stu = new Student(this.id,this.getUserName(),this.getGender(),this.getAge(),this.getPhone(),this.getAddress());
+    if(this.studentGroub.invalid){
+      this.studentGroub.markAllAsTouched();
     } else {
-      this.serviceStudent.editStudent(stu, this.id).subscribe(
-        response => {
-          this.router.navigateByUrl('/students');
-        }
-      )
+      if(this.id == 0){
+        this.serviceStudent.addStudent(stu).subscribe(
+          response => {
+            this.router.navigateByUrl('/students');
+          },
+          error => {
+            this.invalidFullName = "Full Name alerdy Exist";
+            this.showMessage()
+          }
+        )
+      } else {
+        this.serviceStudent.editStudent(stu,this.id).subscribe(
+          response => {
+            this.router.navigateByUrl('/students');
+          }
+        )
+      }
     }
 
-    console.log(this.getUserName())
-    console.log(this.getAge())
-    console.log(this.getAddress())
-    console.log(this.getPhone())
-    console.log(this.getGender())
-  }
-  }
 
+  }
+  showMessage(){
+    setTimeout(() => {
+      this.invalidFullName = ""
+    },3000)
+  }
+}
