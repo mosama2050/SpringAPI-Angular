@@ -21,8 +21,8 @@ public class StudentController {
     }
     // http://localhost:8080/system/students
     @GetMapping("students")
-    public List<Student> getStudents(){
-        return studentService.getStudents();
+    public List<Student> getStudents(@RequestParam int page,@RequestParam int size){
+        return studentService.getStudents(page,size);
     }
 
     // http://localhost:8080/system/student?id=12
