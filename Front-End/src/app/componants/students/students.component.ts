@@ -16,23 +16,21 @@ export class StudentsComponent implements OnInit {
   page: number = 1; // 0 1
   size: number = 2;
   numElement: number;
-
-  constructor(private studentService: StudentService, private route: ActivatedRoute) {
+  fullname: string = "";
+  constructor(private studentService: StudentService,private route: ActivatedRoute) {
   }
-
   ngOnInit(): void {
     this.route.paramMap.subscribe(() =>{
       const result = this.route.snapshot.paramMap.has("name");
       if (result == true) {
-        const name = this.route.snapshot.paramMap.get("name");
-        this.getStudentByName(name)
+        this.fullname = this.route.snapshot.paramMap.get("name");
+        this.getStudentByName()
       } else {
         this.getStudents();
       }
     });
   }
 
-  // tslint:disable-next-line:typedef
   getStudents(){
     this.studentService.getStudents(this.page - 1,this.size).subscribe(
       data => {
@@ -47,34 +45,44 @@ export class StudentsComponent implements OnInit {
       data => this.numElement = data
     );
   }
-  done() {
-    this.getStudents();
+
+  getElementsStudentsByName() {
+    return this.studentService.getStudentSizeByName(this.fullname).subscribe(
+      data => this.numElement = data
+    );
   }
 
-  removeStudent(id: number) {
-    const index = this.students.findIndex(student => student.id == id);
-    this.studentService.removeStudent(id).subscribe(
-      response => {
-        // this.getStudents(),
-        this.students.splice(index, 1),
-          this.message = `success delete id ${id}`,
-          this.showMessage();
+  getStudentByName(){
+    this.studentService.getStudentByName(this.fullname,this.page - 1,this.size).subscribe(
+      data => {
+        this.students = data
+        // this.getElementsStudents()
+        this.getElementsStudentsByName()
       }
     );
   }
-
-  showMessage() {
-    setTimeout(() => {
-      this.message = '';
-    }, 3000);
-  }
-
-  getStudentByName(name: String) {
-    this.studentService.getStudentByName(name).subscribe(
-      data => this.students = data
-
+  removeStudent(id: number){
+    const index = this.students.findIndex(student => student.id == id);
+    this.studentService.removeStudent(id).subscribe(
+      response => {
+        this.students.splice(index,1),
+          this.message = `success delete id ${id}`,
+          this.showMessage()
+      }
     );
   }
+  showMessage(){
+    setTimeout(() => {
+      this.message = ""
+    },3000)
+  }
 
-
+  done() {
+    const result = this.route.snapshot.paramMap.has("name");
+    if (result == true) {
+      this.getStudentByName()
+    } else {
+      this.getStudents();
+    }
+  }
 }
