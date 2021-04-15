@@ -37,8 +37,9 @@ public class StudentService {
     public void removeStudent( Long id){
         studentRepository.deleteById(id);
     }
-    public List<Student> findByFullName(String fullname){
-        return this.studentRepository.findByFullNameContaining(fullname);
+    public List<Student> findByFullName(String fullname,int page ,int size){
+        Pageable pageable = PageRequest.of(page,size);
+        return this.studentRepository.findByFullNameContaining(fullname,pageable);
     }
     public Long getStudentsLength(){
         return studentRepository.getStudentsLength();

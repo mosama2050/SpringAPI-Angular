@@ -15,7 +15,7 @@ export class StudentsComponent implements OnInit {
   message: String;
   page: number = 1; // 0 1
   size: number = 2;
-  numElement: number =10;
+  numElement: number;
 
   constructor(private studentService: StudentService, private route: ActivatedRoute) {
   }
@@ -33,9 +33,18 @@ export class StudentsComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef
-  getStudents() {
-    this.studentService.getStudents(this.page-1,this.size).subscribe(
-      data => this.students = data
+  getStudents(){
+    this.studentService.getStudents(this.page - 1,this.size).subscribe(
+      data => {
+        this.students = data,
+          this.getElementsStudents();
+      }
+    );
+
+  }
+  getElementsStudents() {
+    return this.studentService.getStudentsSize().subscribe(
+      data => this.numElement = data
     );
   }
   done() {

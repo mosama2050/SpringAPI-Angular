@@ -47,6 +47,11 @@ export class StudentService {
   }
 
 
+  getStudentsSize(): Observable<number> {
+    return this.httpStudent.get<number>(this.urlStudents + `/length`).pipe(
+      map(response => response)
+    );
+  }
 
 
 
@@ -55,19 +60,6 @@ export class StudentService {
 
 
 
-
-//api/students
-//   getStudents(): Observable<Student[]> {
-//     return this.httpStudent.get<GetResponseStudent>(this.urlStudents).pipe(
-//       map(response => response._embedded.students)
-//     );
-//   }
-// }
-
-// interface GetResponseStudent {
-//   _embedded: {
-//     students: Student[]
-//   };
 
 
 
