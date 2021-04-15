@@ -11,8 +11,11 @@ import {ActivatedRoute} from '@angular/router';
 export class StudentsComponent implements OnInit {
 
 
-  students: Student[];
+  students: Student[] = [];
   message: String;
+  page: number = 1; // 0 1
+  size: number = 2;
+  numElement: number =10;
 
   constructor(private studentService: StudentService, private route: ActivatedRoute) {
   }
@@ -31,9 +34,12 @@ export class StudentsComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   getStudents() {
-    this.studentService.getStudents().subscribe(
+    this.studentService.getStudents(this.page-1,this.size).subscribe(
       data => this.students = data
     );
+  }
+  done() {
+    this.getStudents();
   }
 
   removeStudent(id: number) {

@@ -13,6 +13,7 @@ import {RouteActivatedService} from './service/route-activated.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import { ContentComponent } from './componants/content/content.component';
 import {LoginActivatedService} from './service/login-activated.service';
+import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 const routes: Routes = [
@@ -37,12 +38,14 @@ const routes: Routes = [
     ContentComponent,
 
   ],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot(routes),
-    HttpClientModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule.forRoot(routes),
+        HttpClientModule,
+        ReactiveFormsModule,
+        NgbPaginationModule
+
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
