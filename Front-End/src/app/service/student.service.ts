@@ -6,7 +6,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Student} from '../model/student';
 @Injectable({
   providedIn: 'root'
@@ -15,12 +15,16 @@ export class StudentService {
 
   private urlStudents = 'http://localhost:8080/system/students';
   constructor(private httpStudent: HttpClient) { }
+
+
   getStudents(page,size): Observable<Student[]> {
-    return this.httpStudent.get<Student[]>(this.urlStudents + `?page=${page}&size=${size}`).pipe(
+    let header = new HttpHeaders({
+      Authorization: this.createBasicAuthenticationHttpHeader()
+    })
+    return this.httpStudent.get<Student[]>(this.urlStudents + `?page=${page}&size=${size}`,{headers : header}).pipe(
       map(response => response)
     );
   }
-
 
   removeStudent(id: number){
     //return this.httpStudent.delete(this.urlStudents + "?id=" + id)
@@ -49,7 +53,10 @@ export class StudentService {
 
 
   getStudentsSize(): Observable<number> {
-    return this.httpStudent.get<number>(this.urlStudents + `/length`).pipe(
+    let header = new HttpHeaders({
+      Authorization: this.createBasicAuthenticationHttpHeader()
+    })
+    return this.httpStudent.get<number>(this.urlStudents + `/length`,{headers: header}).pipe(
       map(response => response)
     );
   }
@@ -64,6 +71,12 @@ export class StudentService {
     );
   }
 
+  createBasicAuthenticationHttpHeader() {
+    let userName = `smsm`;
+    let password = `smsm`;
+    let basicAuthHeaderString = `Basic ` + window.btoa(userName + `:` + password); // 64
+    return basicAuthHeaderString;
+  }
 
 
 
