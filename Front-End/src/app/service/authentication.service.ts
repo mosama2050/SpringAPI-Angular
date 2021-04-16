@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {Student} from '../model/student';
 import {map} from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {API_URL, AUTHENTICATION, TOKEN} from '../app.constant';
 
 @Injectable({
   providedIn: 'root'
@@ -17,32 +18,32 @@ export class AuthenticationService {
     let header = new HttpHeaders({
       Authorization: basicAuthHeaderString
     })
-    return this.httpStudent.get<AuthenticationBean>("http://localhost:8080/basicauth",{headers : header}).pipe(
+    return this.httpStudent.get<AuthenticationBean>(`${API_URL}/basicauth`,{headers : header}).pipe(
       map(
         response => {
-          sessionStorage.setItem("isRegister",username);
-          sessionStorage.setItem("token",basicAuthHeaderString);
+          sessionStorage.setItem(`${AUTHENTICATION}`,username);
+          sessionStorage.setItem(`${TOKEN}`,basicAuthHeaderString);
           return response;
         }
       )
     );
   }
   getAuthentication(){
-    return sessionStorage.getItem("isRegister");
+    return sessionStorage.getItem(`${AUTHENTICATION}`);
   }
   getToken(){
     if(this.getAuthentication()){
-      return sessionStorage.getItem("token");
+      return sessionStorage.getItem(`${TOKEN}`);
     }
   }
   isLogin(){
-    return !(sessionStorage.getItem('isRegister') == null);
+    return !(sessionStorage.getItem(`${AUTHENTICATION}`) == null);
   }
 
   // tslint:disable-next-line:typedef
   logOut(){
-    sessionStorage.removeItem('isRegister');
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem(`${AUTHENTICATION}`);
+    sessionStorage.removeItem(`${TOKEN}`);
   }
 }
 export class AuthenticationBean{
