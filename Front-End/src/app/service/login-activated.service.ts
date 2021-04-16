@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {LoginService} from './login.service';
+
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
+import {AuthenticationService} from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import {Observable} from 'rxjs';
 export class LoginActivatedService implements CanActivate{
 
 
-  constructor(private serviceLogin: LoginService,
+  constructor(private serviceLogin: AuthenticationService,
               private route: Router) { }
 
   // tslint:disable-next-line:max-line-length
