@@ -14,7 +14,7 @@ export class StudentsComponent implements OnInit {
   students: Student[] = [];
   message: String;
   page: number = 1; // 0 1
-  size: number = 2;
+  size: number = 3;
   numElement: number;
   fullname: string = "";
   constructor(private studentService: StudentService,private route: ActivatedRoute) {

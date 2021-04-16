@@ -8,13 +8,15 @@ import { RegiserComponent } from './componants/regiser/regiser.component';
 import { StudentsComponent } from './componants/students/students.component';
 import { OptionsComponent } from './componants/options/options.component';
 import {RouterModule, Routes} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouteActivatedService} from './service/route-activated.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import { ContentComponent } from './componants/content/content.component';
 import {LoginActivatedService} from './service/login-activated.service';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {multicast} from "rxjs/operators";
+import { HttpIntercepterBaseAuthServiceService } from './service/http/http-intercepter-base-auth-service-service.service';
 
 const routes: Routes = [
   {path: 'register', component: RegiserComponent, canActivate: [LoginActivatedService]},
@@ -27,6 +29,8 @@ const routes: Routes = [
   {path: '**', component: StudentsComponent, canActivate: [RouteActivatedService]} ];
 
 
+// @ts-ignore
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +50,9 @@ const routes: Routes = [
         NgbPaginationModule
 
     ],
-  providers: [],
+    providers: [
+      {provide: HTTP_INTERCEPTORS,useClass: HttpIntercepterBaseAuthServiceService ,multi: true}
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
