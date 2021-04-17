@@ -13,8 +13,17 @@ export class AuthenticationService {
   constructor(private httpStudent: HttpClient) { }
 
   executeAuthentication(username,password){
-    let basicAuthHeaderString = `Basic ` + window.btoa(username + `:` + password); // 64
 
+    return this.httpStudent.post<any>(`${API_URL}/signin`,{username,password}).pipe(
+      map(
+        response => {
+          sessionStorage.setItem(`${AUTHENTICATION}`,username);
+          sessionStorage.setItem(`${TOKEN}`,`Bearer ${response.token}`);
+          return response;
+        }
+      )
+    );
+    /*let basicAuthHeaderString = `Basic ` + window.btoa(username + `:` + password); // 64
     let header = new HttpHeaders({
       Authorization: basicAuthHeaderString
     })
@@ -26,7 +35,7 @@ export class AuthenticationService {
           return response;
         }
       )
-    );
+    );*/
   }
   getAuthentication(){
     return sessionStorage.getItem(`${AUTHENTICATION}`);
@@ -40,22 +49,20 @@ export class AuthenticationService {
     return !(sessionStorage.getItem(`${AUTHENTICATION}`) == null);
   }
 
-  // tslint:disable-next-line:typedef
   logOut(){
     sessionStorage.removeItem(`${AUTHENTICATION}`);
     sessionStorage.removeItem(`${TOKEN}`);
   }
 }
+/*
 export class AuthenticationBean{
-
   constructor(private _message: string) {
   }
-
   get message(): string {
     return this._message;
   }
-
   set message(value: string) {
     this._message = value;
   }
 }
+*/
