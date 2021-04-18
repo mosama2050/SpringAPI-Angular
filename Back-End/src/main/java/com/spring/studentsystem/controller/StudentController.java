@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @CrossOrigin("http://localhost:4200")
@@ -16,7 +17,7 @@ import java.util.List;
 public class StudentController {
 
     private StudentService studentService;
-
+    Logger logger = LoggerFactory.getLogger(StudentController.class);
     @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -24,6 +25,7 @@ public class StudentController {
     // http://localhost:8080/system/students
     @GetMapping("students")
     public List<Student> getStudents(@RequestParam int page,@RequestParam int size){
+        logger.info("get All Students");
         return studentService.getStudents(page,size);
     }
 
