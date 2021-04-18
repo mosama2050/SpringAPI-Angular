@@ -4,6 +4,8 @@ package com.spring.studentsystem.controller;
 import com.spring.studentsystem.model.Student;
 import com.spring.studentsystem.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,14 +29,16 @@ public class StudentController {
 
     // http://localhost:8080/system/student?id=12
     @GetMapping("student")
-    public Student getStudentById (@RequestParam Long id){
-        return studentService.getStudentById(id);
+    public ResponseEntity<Student> getStudentById (@RequestParam Long id){
+      Student student=  studentService.getStudentById(id);
+
+        return new ResponseEntity<Student>(student,HttpStatus.ACCEPTED);
     }
 
     // http://localhost:8080/system/students
     @PostMapping("students")
-    public Student saveStudent(@RequestBody Student student){
-        return studentService.saveStudent(student);
+    public ResponseEntity<Student> saveStudent(@RequestBody Student student){
+        return new ResponseEntity<Student>( studentService.saveStudent(student), HttpStatus.OK);
     }
 
     // http://localhost:8080/system/students?id=12

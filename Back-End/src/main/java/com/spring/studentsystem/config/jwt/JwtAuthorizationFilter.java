@@ -58,6 +58,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             if (userName != null && userName.equals("smsm")) {
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken("smsm", null, null);
                 return auth;
+            } else if (userName != null && userName.equals("mohama25")) {
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken("mohama25", null, null);
+                return auth;
             }
             return null;
         }
